@@ -47,11 +47,11 @@ public class UserController {
 
     private final ModifyPasswordService modifyPasswordService;
 
-    @ResponseStatus(HttpStatus.CREATED)
-    @PostMapping("/signup")
-    public void signup(@RequestBody @Valid SignupRequest request) {
-        signupService.signup(request);
-    }
+//    @ResponseStatus(HttpStatus.CREATED)
+//    @PostMapping("/signup")
+//    public void signup(@RequestBody @Valid SignupRequest request) {
+//        signupService.signup(request);
+//    }
 
     @ResponseStatus(HttpStatus.OK)
     @GetMapping("/class-number-check/{classNumber}")
