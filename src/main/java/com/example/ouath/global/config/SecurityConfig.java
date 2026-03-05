@@ -65,10 +65,12 @@ public class SecurityConfig {
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
 
-        configuration.setAllowedOrigins(List.of("*")); // 모든 도메인 허용
-        configuration.setAllowedMethods(Arrays.asList( "OPTIONS", "GET", "POST", "PUT", "PATCH", "DELETE")); // HTTP 메서드 허용
-        configuration.setAllowCredentials(false);
-        configuration.addAllowedHeader("*"); // 모든 헤더 허용
+        configuration.setAllowedOriginPatterns(List.of("*")); // 모든 도메인 허용
+        configuration.setAllowedMethods(Arrays.asList("OPTIONS", "GET", "POST", "PUT", "PATCH", "DELETE")); // HTTP 메서드 허용
+        configuration.setAllowedHeaders(List.of("*")); // 모든 헤더 허용
+        configuration.setExposedHeaders(List.of("*")); // 응답 헤더 노출
+        configuration.setAllowCredentials(true); // credentials 허용
+        configuration.setMaxAge(3600L); // preflight 캐시 시간
 
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**", configuration); // 모든 경로에 대해 위에서 설정한 CORS 설정 적용
