@@ -3,9 +3,7 @@ package com.example.ouath.domain.user.application;
 import com.example.ouath.domain.user.dao.UserRepository;
 import com.example.ouath.domain.user.domain.enums.UserRole;
 import com.example.ouath.domain.user.dto.response.UserAllResponse;
-import com.example.ouath.domain.user.exception.InvalidUserException;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -18,12 +16,8 @@ public class QueryAllUserService {
 
     private final UserRepository userRepository;
 
-    @Value("${key.secret-key}")
-    private String yamlSecretKey;
-
     @Transactional(readOnly = true)
-    public List<UserAllResponse> queryAllUser(String secretKey) {
-        if(!yamlSecretKey.equals(secretKey)) throw InvalidUserException.EXCEPTION;
+    public List<UserAllResponse> queryAllUser() {
 
         return userRepository.findAll()
                 .stream()

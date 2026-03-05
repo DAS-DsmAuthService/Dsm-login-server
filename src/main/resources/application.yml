@@ -14,16 +14,6 @@ spring:
     hibernate:
       ddl-auto: none
 
-jwt:
-  header: Authorization
-  prefix: Bearer
-  secret: ${SECRET}
-  accessExpiration: 271000
-  refreshExpiration: 604800
-
-key:
-  secret-key: ${SECRET_KEY}
-
 server:
   servlet:
     context-path: /dsm-login

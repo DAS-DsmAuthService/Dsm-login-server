@@ -1,11 +1,8 @@
 package com.example.ouath.global.config;
 
-import com.example.ouath.global.security.jwt.JwtTokenProvider;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
@@ -25,10 +22,6 @@ import java.util.List;
 @RequiredArgsConstructor
 @Configuration
 public class SecurityConfig {
-
-    private final JwtTokenProvider jwtTokenProvider;
-
-    private final ObjectMapper objectMapper;
 
     @Bean
     public PasswordEncoder passwordEncoder() {
@@ -62,9 +55,7 @@ public class SecurityConfig {
                 .authorizeHttpRequests(authorize -> authorize
                         .requestMatchers("/user/**", "/test/**")
                         .permitAll()
-                )
-
-                .with(new FilterConfig(jwtTokenProvider, objectMapper), Customizer.withDefaults());
+                );
 
         return httpSecurity.build();
 
