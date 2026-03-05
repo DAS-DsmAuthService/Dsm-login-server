@@ -70,11 +70,11 @@ public class UserController {
         return queryUserDataService.queryUserDate(request);
     }
 
-    @ResponseStatus(HttpStatus.OK)
-    @GetMapping("/user-all")
-    public List<UserAllResponse> queryAllUser() {
-        return queryAllUserService.queryAllUser();
-    }
+//    @ResponseStatus(HttpStatus.OK)
+//    @GetMapping("/user-all")
+//    public List<UserAllResponse> queryAllUser() {
+//        return queryAllUserService.queryAllUser();
+//    }
 
     @ResponseStatus(HttpStatus.OK)
     @PatchMapping("/modify-profile")
