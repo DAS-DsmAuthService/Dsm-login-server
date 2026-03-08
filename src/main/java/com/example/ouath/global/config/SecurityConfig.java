@@ -3,6 +3,7 @@ package com.example.ouath.global.config;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
@@ -44,8 +45,7 @@ public class SecurityConfig {
                 )
 
                 .headers(headers -> headers
-                        .frameOptions(HeadersConfigurer.FrameOptionsConfig::sameOrigin
-                        )
+                        .frameOptions(HeadersConfigurer.FrameOptionsConfig::sameOrigin)
                 )
 
                 .sessionManagement(sessionManagement -> sessionManagement
@@ -53,8 +53,9 @@ public class SecurityConfig {
                 )
 
                 .authorizeHttpRequests(authorize -> authorize
-                        .requestMatchers("/user/**", "/test/**")
-                        .permitAll()
+                        .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll() // preflight 전체 허용
+                        .requestMatchers("/user/**", "/test/**").permitAll()
+                        .anyRequest().authenticated()
                 );
 
         return httpSecurity.build();
@@ -65,16 +66,15 @@ public class SecurityConfig {
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
 
-        configuration.setAllowedOriginPatterns(List.of("*")); // 모든 도메인 허용
-        configuration.setAllowedMethods(Arrays.asList("OPTIONS", "GET", "POST", "PUT", "PATCH", "DELETE")); // HTTP 메서드 허용
-        configuration.setAllowedHeaders(List.of("*")); // 모든 헤더 허용
-        configuration.setExposedHeaders(List.of("*")); // 응답 헤더 노출
-        configuration.setAllowCredentials(true); // credentials 허용
-        configuration.setMaxAge(3600L); // preflight 캐시 시간
+        configuration.setAllowedOriginPatterns(List.of("*"));
+        configuration.setAllowedMethods(Arrays.asList("OPTIONS", "GET", "POST", "PUT", "PATCH", "DELETE"));
+        configuration.setAllowedHeaders(List.of("*"));
+        configuration.setExposedHeaders(List.of("*"));
+        configuration.setAllowCredentials(true);
+        configuration.setMaxAge(3600L);
 
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-        source.registerCorsConfiguration("/**", configuration); // 모든 경로에 대해 위에서 설정한 CORS 설정 적용
+        source.registerCorsConfiguration("/**", configuration);
         return source;
     }
 }
-
